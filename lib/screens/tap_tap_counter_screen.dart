@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tap_tap_money_counter/data.dart';
 import 'package:tap_tap_money_counter/screens/widgets/money_button.dart';
 
 class TapTapCounterScreen extends StatefulWidget {
@@ -14,6 +15,20 @@ class _TapTapCounterScreenState extends State<TapTapCounterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Palette.primary,
+        leading: IconButton(
+          icon: const Icon(Icons.history),
+          onPressed: () {},
+        ),
+        title: Text("€${moneyCounter.toStringAsFixed(2)}"),
+        actions: [IconButton(onPressed: () {
+          setState(() {
+            moneyCounter = 0;
+            moneySequence = [];
+          });
+        }, icon: Icon(Icons.restart_alt_outlined))],
+      ),
       body: Column(
         children: [
           Expanded(
@@ -55,8 +70,7 @@ class _TapTapCounterScreenState extends State<TapTapCounterScreen> {
           // Expanded(
           //   child: Row(
           //     children: [
-                
-                
+
           //     ],
           //   ),
           // ),
@@ -217,7 +231,9 @@ class _TapTapCounterScreenState extends State<TapTapCounterScreen> {
                   child: ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        moneyCounter -= moneySequence.removeLast();
+                        if (moneySequence.isNotEmpty) {
+                          moneyCounter -= moneySequence.removeLast();
+                        }
                       });
                     },
                     child: Icon(Icons.undo),
